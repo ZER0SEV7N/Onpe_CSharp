@@ -1,0 +1,69 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Onpe.Datos;
+using Microsoft.Extensions.Configuration;
+namespace Onpe.Controllers
+{
+    //Controlador para manejar las vistas relacionada con la participacion electoral.
+    public class ParticipacionController : Controller
+    {
+        private readonly daoParticipacion daoP;
+
+        //Constructor para inicializar la conexion a la base de datos
+        public ParticipacionController(IConfiguration configuration)
+        {
+            daoP = new daoParticipacion(configuration);
+        }
+
+        public IActionResult Inicial()
+        {
+            var listaCompleta = daoP.getNacional(1, 30);
+            return View(listaCompleta);
+        }
+
+        //Get: Participacion/Nacional/{id}
+        public IActionResult Nacional(string id = "Nacional")
+        {
+            ViewBag.Titulo = "NACIONAL";
+            ViewBag.Columna = id == "Extranjero" ? "CONTINENTE" : "DEPARTAMENTO";
+            ViewBag.SiguienteNivel = "Departamentos";
+
+            var lista = id == "Extranjero" ? daoP.getNacional(26, 30) : daoP.getNacional(1, 25);
+            return View("Resumen", lista);
+        }
+
+        //Get: Participacion/Departamento/{Departamento}
+        //Cuenta tanto nacional como extranjero
+        public IActionResult Departamentos(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return RedirectToAction("Nacional");
+
+            ViewBag.Titulo = id;
+            ViewBag.Columna = (id == "AFRICA" || id == "AMERICA" || id == "ASIA" || id == "EUROPA" || id == "OCEANIA") ? "PAÍS" : "PROVINCIA";
+            ViewBag.SiguienteNivel = "Provincia";
+
+            return View("Resumen", daoP.getPorDepartamento(id));
+        }
+
+        //Get: Participacion/Provincia/{Provincia}
+        public IActionResult Provincia(string id)
+        {
+            ViewBag.Titulo = id;
+            ViewBag.Columna = "DISTRITO / CIUDAD";
+            ViewBag.SiguienteNivel = "Distrito"; 
+
+            return View("Resumen", daoP.getPorProvincia(id));
+        }
+
+        //Get: Participacion/Distrito/{Distrito}
+        public IActionResult Distrito(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return RedirectToAction("Nacional");
+
+            ViewBag.Titulo = id;
+            ViewBag.Columna = "LOCAL DE VOTACIÓN";
+            ViewBag.SiguienteNivel = ""; 
+
+            return View("Resumen", daoP.getPorDistrito(id));
+        }
+    }
+}

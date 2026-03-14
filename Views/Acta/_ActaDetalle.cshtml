@@ -1,0 +1,128 @@
+﻿@model Onpe.Models.GrupoVotacion
+@{
+    bool isExtranjero = Model.Departamento == "AFRICA" 
+        || Model.Departamento == "AMERICA" 
+        || Model.Departamento == "ASIA" 
+        || Model.Departamento == "EUROPA" 
+        || Model.Departamento == "OCEANIA";
+    string hdDepto = isExtranjero ? "CONTINENTE" : "DEPARTAMENTO";
+    string hdProv = isExtranjero ? "PAÍS" : "PROVINCIA";
+    string hdDist = isExtranjero ? "CIUDAD" : "DISTRITO";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <img src="~/content/images/mp-sin.jpg" class="img-responsive" style="border: 1px solid #ccc; width: 100%;">
+        <p style="font-size: 11px; margin-top: 5px; color: #555;">Si requiere la imagen del acta, solicítela a través del procedimiento de acceso a la información pública.</p>
+    </div>
+    
+    <div class="col-md-8">
+        <table class="table table-bordered table-striped" style="margin-bottom: 15px;">
+            <thead>
+                <tr style="background-color: #c89f3b; color: white;">
+                    <th colspan="2" style="border: none;">ACTA ELECTORAL</th>
+                </tr>
+                <tr style="background-color: #e0e0e0; text-align: center;">
+                    <th class="text-center" style="border-bottom: none;">Mesa N°</th>
+                    <th class="text-center" style="border-bottom: none;">N° Copia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td>@Model.idGrupoVotacion</td>
+                    <td>@Model.nCopia</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-striped" style="margin-bottom: 15px;">
+            <thead>
+                <tr style="background-color: #c89f3b; color: white;">
+                    <th colspan="5" style="border: none;">INFORMACIÓN UBIGEO</th>
+                </tr>
+                <tr style="background-color: #e0e0e0; font-size: 11px; text-align: center;">
+                    <th class="text-center">@hdDepto</th>
+                    <th class="text-center">@hdProv</th>
+                    <th class="text-center">@hdDist</th>
+                    <th class="text-center">LOCAL DE VOTACIÓN</th>
+                    <th class="text-center">DIRECCIÓN</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center" style="font-size: 11px;">
+                    <td style="vertical-align: middle;">@Model.Departamento</td>
+                    <td style="vertical-align: middle;">@Model.Provincia</td>
+                    <td style="vertical-align: middle;">@Model.Distrito</td>
+                    <td style="vertical-align: middle;">@Model.LocalVotacion</td>
+                    <td style="vertical-align: middle;">@Model.Direccion</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr style="background-color: #c89f3b; color: white;">
+                    <th colspan="3" style="border: none;">INFORMACIÓN MESA</th>
+                </tr>
+                <tr style="background-color: #e0e0e0; text-align: center;">
+                    <th class="text-center">ELECTORES HÁBILES</th>
+                    <th class="text-center">TOTAL VOTANTES</th>
+                    <th class="text-center">ESTADO DEL ACTA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td>@Model.ElectoresHabiles</td>
+                    <td>@Model.TotalVotantes</td>
+                    <td>@(Model.idEstadoActa == 1 ? "ACTA ELECTORAL NORMAL" : "ACTA ELECTORAL RESUELTA")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="col-xs-12 ptop20">
+    <div style="background-color: #c89f3b; color: white; padding: 5px 10px; font-weight: bold;">LISTA DE RESOLUCIONES</div>
+    <p style="padding: 10px 0;"><span class="glyphicon glyphicon-info-sign"></span> No hay resoluciones para el acta seleccionada</p>
+</div>
+
+<div class="col-xs-12 ptop20">
+    <div style="background-color: #c89f3b; color: white; padding: 5px 10px; font-weight: bold; margin-bottom: 10px;">INFORMACIÓN DEL ACTA ELECTORAL</div>
+    <table class="table03 table-bordered" style="width: 100%;">
+        <tbody>
+            <tr style="background-color: #e0e0e0; font-weight: bold;">
+                <td colspan="2" class="text-left" style="padding: 8px;">ORGANIZACIÓN POLÍTICA</td>
+                <td class="text-center" style="padding: 8px;">TOTAL DE VOTOS</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px;">PERUANOS POR EL KAMBIO</td>
+                <td class="text-center" style="width: 80px;"><img src="~/content/images/simbolo_pkk.jpg" width="40"></td>
+                <td class="text-center" style="padding: 8px;">@Model.P1</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px;">FUERZA POPULAR</td>
+                <td class="text-center"><img src="~/content/images/simbolo_keyko.jpg" width="40"></td>
+                <td class="text-center" style="padding: 8px;">@Model.P2</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">VOTOS EN BLANCO</td>
+                <td class="text-center" style="padding: 8px;">@Model.VotosBlancos</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">VOTOS NULOS</td>
+                <td class="text-center" style="padding: 8px;">@Model.VotosNulos</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">VOTOS IMPUGNADOS</td>
+                <td class="text-center" style="padding: 8px;">@Model.VotosImpugnados</td>
+            </tr>
+            <tr style="font-weight:bold; background-color:#e0e0e0;">
+                <td colspan="2" style="padding: 8px;">TOTAL DE VOTOS EMITIDOS</td>
+                <td class="text-center" style="padding: 8px;">@(Model.P1 + Model.P2 
+                                                                         + Model.VotosBlancos 
+                                                                         + Model.VotosNulos 
+                                                                         + Model.VotosImpugnados)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

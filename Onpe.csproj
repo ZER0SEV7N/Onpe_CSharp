@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\content\actas_numero.html" />
+    <None Include="wwwroot\content\actas_ubigeo.html" />
+    <None Include="wwwroot\content\css\bootstrap.css" />
+    <None Include="wwwroot\content\css\bootstrap.min.css" />
+    <None Include="wwwroot\content\css\font-awesome.min.css" />
+    <None Include="wwwroot\content\css\fontawesome.min.css" />
+    <None Include="wwwroot\content\css\style.css" />
+    <None Include="wwwroot\content\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="wwwroot\content\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\content\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="wwwroot\content\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="wwwroot\content\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\content\images\actas.jpg" />
+    <None Include="wwwroot\content\images\actas_portada.jpg" />
+    <None Include="wwwroot\content\images\eegg2016-trans.png" />
+    <None Include="wwwroot\content\images\estadistico.png" />
+    <None Include="wwwroot\content\images\f-actas.jpg" />
+    <None Include="wwwroot\content\images\f-participacion.jpg" />
+    <None Include="wwwroot\content\images\f-presidencial.jpg" />
+    <None Include="wwwroot\content\images\icono_extranjero.jpg" />
+    <None Include="wwwroot\content\images\icono_nacional.jpg" />
+    <None Include="wwwroot\content\images\keyko.jpg" />
+    <None Include="wwwroot\content\images\mp-sin.jpg" />
+    <None Include="wwwroot\content\images\onpe-trans.png" />
+    <None Include="wwwroot\content\images\participacion.jpg" />
+    <None Include="wwwroot\content\images\participacion_portada.jpg" />
+    <None Include="wwwroot\content\images\pkk.jpg" />
+    <None Include="wwwroot\content\images\presidenciales.jpg" />
+    <None Include="wwwroot\content\images\procesacon.jpg" />
+    <None Include="wwwroot\content\images\procesasin.jpg" />
+    <None Include="wwwroot\content\images\simbolo_keyko.jpg" />
+    <None Include="wwwroot\content\images\simbolo_pkk.jpg" />
+    <None Include="wwwroot\content\images\sinprocesa.jpg" />
+    <None Include="wwwroot\content\images\votacion.png" />
+    <None Include="wwwroot\content\images\votos_validos.png" />
+    <None Include="wwwroot\content\index.html" />
+    <None Include="wwwroot\content\participacion.html" />
+    <None Include="wwwroot\content\participacion_total.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,232 @@
+﻿@{
+    ViewData["Title"] = "Actas por Ubigeo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <img src="~/content/images/f-actas.jpg" width="1170" height="248" class="img-responsive mg30top">
+
+    <section class="contenedor">
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <div class="menu-interna">
+                    <ul>
+                        <li><a href="@Url.Action("Ubigeo", "Acta")" class="act-izq act-amarillo">Por Ubigeo</a></li>
+                        <li><a href="@Url.Action("Numero", "Acta")" class="act-izq">Por número</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-9" id="impreso">
+                <div class="contenido-interna">
+                    <div class="titulos col-xs-12">
+                        <div class="col-xs-11">
+                            <h3> <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" style="font-size:19px"></span> SEGUNDA ELECCIÓN PRESIDENCIAL 2016: RESULTADOS DE ACTAS</h3>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <p class="subtitle">BÚSQUEDA DE ACTAS POR UBIGEO</p>
+                        <br />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Ámbito:</label>
+                                <div class="col-sm-6">
+                                    <select id="cboAmbito" class="form-control">
+                                        <option value="Nacional" selected>PERÚ</option>
+                                        <option value="Extranjero">EXTRANJERO</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label id="lblDepartamento" class="col-sm-3 control-label">Departamento:</label>
+                                <div class="col-sm-6">
+                                    <select id="cboDepartamento" class="form-control">
+                                        <option value="">-- SELECCIONE --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label id="lblProvincia" class="col-sm-3 control-label">Provincia:</label>
+                                <div class="col-sm-6">
+                                    <select id="cboProvincia" class="form-control">
+                                        <option value="">-- SELECCIONE --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label id="lblDistrito" class="col-sm-3 control-label">Distrito:</label>
+                                <div class="col-sm-6">
+                                    <select id="cboDistrito" class="form-control">
+                                        <option value="">-- SELECCIONE --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Local de Votación:</label>
+                                <div class="col-sm-6">
+                                    <select id="cboLocal" class="form-control">
+                                        <option value="">-- SELECCIONE --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contenedorMesas" class="col-xs-12 ptop20" style="display:none;">
+                        <div style="background-color: #c89f3b; color: white; padding: 5px 10px; font-weight: bold;">LISTADO DE MESAS</div>
+                        
+                        <div id="grillaMesas" class="row" style="background-color: #d9d9d9; margin: 0; padding: 15px;">
+                            </div>
+
+                        <div class="row ptop20">
+                            <div class="col-md-12 text-center" style="border: 1px solid #ccc; padding: 10px; display: flex; justify-content: space-around;">
+                                <span><div style="width:15px;height:15px;background:#98b1e4;display:inline-block;vertical-align:middle;margin-right:5px;"></div> Procesada con imagen</span>
+                                <span><div style="width:15px;height:15px;background:#b3b3b3;display:inline-block;vertical-align:middle;margin-right:5px;"></div> Procesada sin imagen</span>
+                                <span><div style="width:15px;height:15px;background:#e5cda1;display:inline-block;vertical-align:middle;margin-right:5px;"></div> Sin procesar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contenedorActaDetalle" class="col-xs-12 ptop20" style="display:none;">
+                        <div class="text-right pbot10">
+                            <button id="btnRegresarMesas" type="button" class="btn btn-primary" style="background-color: #337ab7; border-color: #2e6da4;">
+                                <span class="glyphicon glyphicon-chevron-left"></span> REGRESAR
+                            </button>
+                        </div>
+                        <div id="htmlActa"></div> 
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            
+            function cargarAmbitos() {
+                var ambito = $('#cboAmbito').val();
+                if (ambito === 'Extranjero') {
+                    $('#lblDepartamento').text('Continente:');
+                    $('#lblProvincia').text('País:');
+                    $('#lblDistrito').text('Ciudad:');
+                } else {
+                    $('#lblDepartamento').text('Departamento:');
+                    $('#lblProvincia').text('Provincia:');
+                    $('#lblDistrito').text('Distrito:');
+                }
+
+                $('#cboDepartamento, #cboProvincia, #cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
+                
+                $('#contenedorMesas').hide(); 
+                $('#contenedorActaDetalle').hide();
+
+                $.get('@Url.Action("CargarDepartamentos", "Acta")?ambito=' + ambito, function (data) {
+                    $.each(data, function (index, item) {
+                        $('#cboDepartamento').append($('<option>', { value: item.id, text: item.text }));
+                    });
+                });
+            }
+
+            cargarAmbitos();
+            $('#cboAmbito').change(cargarAmbitos);
+
+            $('#cboDepartamento').change(function () {
+                var id = $(this).val();
+                $('#cboProvincia, #cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
+                $('#contenedorMesas').hide(); $('#contenedorActaDetalle').hide();
+                
+                if (id) {
+                    $.get('@Url.Action("CargarProvincias", "Acta")?id=' + id, function (data) {
+                        $.each(data, function (index, item) {
+                            $('#cboProvincia').append($('<option>', { value: item.id, text: item.text }));
+                        });
+                    });
+                }
+            });
+
+            $('#cboProvincia').change(function () {
+                var id = $(this).val();
+                $('#cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
+                $('#contenedorMesas').hide(); $('#contenedorActaDetalle').hide();
+                
+                if (id) {
+                    $.get('@Url.Action("CargarDistritos", "Acta")?id=' + id, function (data) {
+                        $.each(data, function (index, item) {
+                            $('#cboDistrito').append($('<option>', { value: item.id, text: item.text }));
+                        });
+                    });
+                }
+            });
+
+            $('#cboDistrito').change(function () {
+                var id = $(this).val();
+                $('#cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
+                $('#contenedorMesas').hide(); $('#contenedorActaDetalle').hide();
+                
+                if (id) {
+                    $.get('@Url.Action("CargarLocales", "Acta")?id=' + id, function (data) {
+                        $.each(data, function (index, item) {
+                            $('#cboLocal').append($('<option>', { value: item.id, text: item.text }));
+                        });
+                    });
+                }
+            });
+
+
+            $('#cboLocal').change(function () {
+                var id = $(this).val();
+                $('#grillaMesas').empty(); 
+                $('#contenedorActaDetalle').hide();
+                
+                if (id) {
+                    $.get('@Url.Action("CargarMesas", "Acta")?id=' + id, function (data) {
+                        $.each(data, function (index, item) {
+                            var link = $('<a>', {
+                                text: item.id,
+                                href: 'javascript:void(0)', 
+                                'class': 'btn-mesa', 
+                                'data-id': item.id,  
+                                style: 'display:inline-block; width:19%; text-align:center; padding:10px 0; color:#337ab7; font-weight:bold; text-decoration:none;'
+                            });
+                            
+                            link.hover(
+                                function() { $(this).css('background-color', '#c0c0c0'); },
+                                function() { $(this).css('background-color', 'transparent'); }
+                            );
+
+                            $('#grillaMesas').append(link);
+                        });
+                        
+                        $('#contenedorMesas').fadeIn();
+                    });
+                } else {
+                    $('#contenedorMesas').hide();
+                }
+            });
+
+
+            $('#grillaMesas').on('click', '.btn-mesa', function (e) {
+                e.preventDefault(); 
+                var idMesa = $(this).data('id'); 
+                
+                $.get('@Url.Action("ObtenerDetalle", "Acta")?id=' + idMesa, function (htmlObtenido) {
+                    $('#contenedorMesas').hide();           
+                    $('#htmlActa').html(htmlObtenido);      
+                    $('#contenedorActaDetalle').fadeIn();   
+                }).fail(function() {
+                    alert("Error cargando el acta. Verifique que el método ObtenerDetalle exista en ActaController.");
+                });
+            });
+
+            $('#btnRegresarMesas').click(function() {
+                $('#contenedorActaDetalle').hide(); 
+                $('#contenedorMesas').fadeIn();     
+            });
+        });
+    </script>
+}

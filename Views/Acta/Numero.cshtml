@@ -1,0 +1,73 @@
+﻿@model Onpe.Models.GrupoVotacion
+@{
+    ViewData["Title"] = "Actas por Número";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <img src="~/content/images/f-actas.jpg" width="1170" height="248" class="img-responsive mg30top">
+
+    <section class="contenedor">
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <div class="menu-interna">
+                    <ul>
+                        <li><a href="@Url.Action("Ubigeo", "Acta")" class="act-izq">Por Ubigeo</a></li>
+                        <li><a href="@Url.Action("Numero", "Acta")" class="act-izq act-amarillo">Por número</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-9" id="impreso">
+                <div class="contenido-interna">
+                    <div class="titulos col-xs-12">
+                        <div class="col-xs-11">
+                            <h3> <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" style="font-size:19px"></span> SEGUNDA ELECCIÓN PRESIDENCIAL 2016: RESULTADOS DE ACTAS</h3>
+                        </div>
+                        <div class="col-xs-1 oculto-boton-print">
+                            <button onclick="window.print();"><i class="fa fa-print ico-print"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-lg-7 centered">
+                            <div class="col-xs-12 col-md-12 col-lg-12 cont-curv">
+                                <div class="col-xs-3 col-md-1">
+                                    <span class="glyphicon glyphicon-ok-circle ico-info" aria-hidden="true"></span>
+                                </div>
+                                <div class="col-xs-9 col-md-11">
+                                    <ul>
+                                        <li>ACTUALIZADO EL 20/06/2016 A LAS 19:16 h </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+
+                    <div class="col-xs-12 pbot30 ptop20">
+                        <form asp-action="Numero" method="get" class="form-inline">
+                            <div class="form-group" style="margin-right: 20px;">
+                                <label style="margin-right: 10px; font-weight: normal;">INGRESE EL NÚMERO DE ACTA:</label>
+                                <input type="text" name="id" class="form-control" placeholder="000001" maxlength="6" required style="width: 150px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="background-color: #337ab7; border-color: #2e6da4;">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> BUSCAR
+                            </button>
+                        </form>
+                        
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger text-center ptop20">@ViewBag.Error</div>
+                        }
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <partial name="_ActaDetalle" model="Model" />
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
