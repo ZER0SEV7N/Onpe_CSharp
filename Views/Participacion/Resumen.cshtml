@@ -12,14 +12,13 @@
 }
 
 <div class="container">
-    <img src="~/content/images/f-participacion.jpg" width="1170" height="248" class="img-responsive mg30top">
 
    <section class="contenedor">
         <div class="row">
             <div class="col-xs-12 col-md-3">
                 <div class="menu-interna">
                     <ul>
-                        <li><a href="@Url.Action("Index", "Participacion")" class="act-izq">TOTAL</a></li>
+                        <li><a href="@Url.Action("inicial", "Participacion")" class="act-izq">TOTAL</a></li>
                     </ul>
                 </div>
             </div>
@@ -27,7 +26,7 @@
                 <div class="contenido-interna">
                     <div class="titulos col-xs-12">
                         <div class="col-xs-11">
-                            <h3> <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" style="font-size:19px"></span> SEGUNDA ELECCIÓN PRESIDENCIAL 2016: PARTICIPACIÓN CIUDADANA @(ViewBag.Titulo != "NACIONAL" && ViewBag.Titulo != "EXTRANJERO" ? "- " + ViewBag.Titulo : "")</h3>
+                            <h3> <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" style="font-size:19px"></span> SEGUNDA ELECCIÓN PRESIDENCIAL 2016: PARTICIPACIÓN CIUDADANA </h3>
                         </div>
                         <div class="col-xs-1 oculto-boton-print">
                             <button onclick="window.print();"><i class="fa fa-print ico-print"></i></button>
@@ -76,7 +75,7 @@
 
                         <div class="col-xs-12 col-md-6">
                             <div class="cont-recto" style="margin-bottom:10px">
-                                Ámbito: @ViewBag.Titulo
+                                Ambito: @ViewBag.Titulo 
                             </div>
                             <p class="subtitle">ELECTORES HÁBILES @totalEH.ToString("N0")</p>
                             <div id="page-wrap">

@@ -10,7 +10,7 @@ namespace Onpe.Datos
         //Constructor para inicializar la conexion a la base de datos
         public daoParticipacion(IConfiguration configuration)
         {
-            db =  new ConexionDB(configuration, "CadenaSQLLocal");
+            db =  new ConexionDB(configuration, "CadenaSQLProfesor");
         }
 
         //Metodo para obtener la participacion a nivel Nacional (Departamento = 1 / 25)
@@ -39,20 +39,20 @@ namespace Onpe.Datos
         {
             //Consulta para obtener la participacion de un distrito en especifico, se le pasa el nombre del distrito como parametro
             string query = $@"SELECT TRIM(LV.RazonSocial) AS 'DPD', 
-                                     SUM(GV.TotalVotos) AS 'TV',
-                                     CONCAT(CAST((SUM(GV.TotalVotos) * 100.0 / SUM(GV.ElectoresHabiles)) AS DECIMAL(8,3)), '%') AS 'PTV',
-                                     SUM(GV.ElectoresHabiles) AS 'TA',
-                                     CONCAT(CAST(((SUM(GV.ElectoresHabiles) - SUM(GV.TotalVotantes)) * 100.0 / SUM(GV.ElectoresHabiles)) AS decimal(8,3)), ' %') as 'PTA',
-                                     SUM(GV.ElectoresHabiles) as 'EH'   
+                                     SUM(GV.TotalVotantes) AS 'TV',
+                                     CONCAT(CAST((SUM(GV.TotalVotantes) * 100.0 / SUM(GV.ElectoresHabiles)) AS DECIMAL(8,3)), '%') AS 'PTV',
+                                     SUM(GV.ElectoresHabiles) - SUM(GV.TotalVotantes) 'TA',
+                                     CONCAT(CAST(((SUM(GV.ElectoresHabiles) - SUM(GV.TotalVotantes)) * 100.0 / SUM(GV.ElectoresHabiles)) AS decimal(8,3)), ' %') 'PTA',
+                                     SUM(GV.ElectoresHabiles) 'EH'   
                                 FROM GrupoVotacion GV
                                 INNER JOIN LocalVotacion LV ON GV.idLocalVotacion = LV.idLocalVotacion
                                 INNER JOIN Distrito DI ON LV.idDistrito = DI.idDistrito
                                 WHERE DI.Detalle = '{Distrito}' 
                                 GROUP BY LV.RazonSocial";
             //Utilizando procedimiento almacenado
-            db.Setencia($"exec usp_getVotosDistrito '{Distrito}'");
+            //db.Setencia($"exec usp_getVotosDistrito '{Distrito}'");
             //Ejecutando la consulta
-            //db.Setencia(query);
+            db.Setencia(query);
             return new Participacion().getList(db.getRegistros());
         }
     }

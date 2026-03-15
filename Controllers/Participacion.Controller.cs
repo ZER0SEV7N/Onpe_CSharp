@@ -31,7 +31,7 @@ namespace Onpe.Controllers
             return View("Resumen", lista);
         }
 
-        //Get: Participacion/Departamento/{Departamento}
+        //Get: Participacion/Nacional/Departamento/{Departamento}
         //Cuenta tanto nacional como extranjero
         public IActionResult Departamentos(string id)
         {

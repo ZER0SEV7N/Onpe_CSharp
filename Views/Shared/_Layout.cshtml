@@ -23,7 +23,40 @@
             </div>
         </div>
     </header>
-
+    @{
+        string controlador = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+        string bgActas = (controlador == "Acta") ? "#c89f3b" : "#e0e0e0";
+        string colorActas = (controlador == "Acta") ? "#ffffff" : "#555555";
+        string bgPart = (controlador == "Participacion") ? "#b7282e" : "#e0e0e0";
+        string colorPart = (controlador == "Participacion") ? "#ffffff" : "#555555";
+        string bannerImg = (controlador == "Participacion") ? "f-participacion.jpg" : "f-actas.jpg";
+    }
+    @if (controlador != "Home" && controlador != "Inicio")
+    {
+        <div class="container mg30top">
+            <img src="~/content/images/@bannerImg" width="1170" height="248" class="img-responsive" alt="Banner ONPE">
+            
+                <div class="row" style="margin: 0; margin-bottom: 20px;">
+                    <a href="#" style="text-decoration: none; display: block;">
+                        <div class="col-xs-4" style="background-color: #e0e0e0; color: #555555; text-align: center; padding: 15px 0; font-size: 15px; border-top: 5px solid #142a4b;">
+                            PRESIDENCIAL
+                        </div>
+                    </a>
+                
+                    <a href="@Url.Action("Ubigeo", "Acta")" style="text-decoration: none; display: block;">
+                        <div class="col-xs-4" style="background-color: @bgActas; color: @colorActas; text-align: center; padding: 15px 0; font-size: 15px; border-top: 5px solid #c89f3b; transition: 0.3s;">
+                            ACTAS
+                        </div>
+                    </a>
+                
+                    <a href="@Url.Action("Inicial", "Participacion")" style="text-decoration: none; display: block;">
+                        <div class="col-xs-4" style="background-color: @bgPart; color: @colorPart; text-align: center; padding: 15px 0; font-size: 15px; border-top: 5px solid #b7282e; transition: 0.3s;">
+                            PARTICIPACIÓN CIUDADANA
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
     @RenderBody()
     <footer class="@(ViewData["FooterClass"] ?? "footer-inside")">
         <div class="container">

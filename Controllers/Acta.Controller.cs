@@ -36,7 +36,8 @@ namespace Onpe.Controllers
             return View(); 
         }
 
-        //ENDPOINTS JSON PARA JQUERY AJAX
+        //Endpoints para cargar los datos de ubigeo
+        //JQuery y Ajax
         [HttpGet] public JsonResult CargarDepartamentos(string ambito)
         {
             if (ambito == "Extranjero")
@@ -49,6 +50,7 @@ namespace Onpe.Controllers
         [HttpGet] public JsonResult CargarLocales(int id) => Json(daoGV.getLocales(id));
         [HttpGet] public JsonResult CargarMesas(int id) => Json(daoGV.getGrupoVotacion(id));
 
+        //Cargar el Detalle para las actas.
         [HttpGet] public IActionResult ObtenerDetalle(string id)
         {
             var acta = daoGV.getActa(id);

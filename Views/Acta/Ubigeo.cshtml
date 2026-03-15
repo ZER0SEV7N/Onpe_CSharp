@@ -4,11 +4,10 @@
 }
 
 <div class="container">
-    <img src="~/content/images/f-actas.jpg" width="1170" height="248" class="img-responsive mg30top">
-
     <section class="contenedor">
         <div class="row">
             <div class="col-xs-12 col-md-3">
+                <!-- menu Interno -->
                 <div class="menu-interna">
                     <ul>
                         <li><a href="@Url.Action("Ubigeo", "Acta")" class="act-izq act-amarillo">Por Ubigeo</a></li>
@@ -23,56 +22,49 @@
                             <h3> <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" style="font-size:19px"></span> SEGUNDA ELECCIÓN PRESIDENCIAL 2016: RESULTADOS DE ACTAS</h3>
                         </div>
                     </div>
-
+                    <!-- Filtro de Búsqueda -->
                     <div class="col-xs-12">
                         <p class="subtitle">BÚSQUEDA DE ACTAS POR UBIGEO</p>
-                        <br />
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Ámbito:</label>
-                                <div class="col-sm-6">
-                                    <select id="cboAmbito" class="form-control">
-                                        <option value="Nacional" selected>PERÚ</option>
-                                        <option value="Extranjero">EXTRANJERO</option>
-                                    </select>
-                                </div>
+                        <br/>
+                        
+                        <div class="row pbot20">
+                            <div class="col-md-3 col-sm-4 form-group">
+                                <label class="control-label">Ámbito:</label>
+                                <select id="cboAmbito" class="form-control">
+                                    <option value="Nacional" selected>PERÚ</option>
+                                    <option value="Extranjero">EXTRANJERO</option>
+                                </select>
                             </div>
-                            
-                            <div class="form-group">
-                                <label id="lblDepartamento" class="col-sm-3 control-label">Departamento:</label>
-                                <div class="col-sm-6">
-                                    <select id="cboDepartamento" class="form-control">
-                                        <option value="">-- SELECCIONE --</option>
-                                    </select>
-                                </div>
+                            <div class="col-md-4 col-sm-4 form-group">
+                                <label id="lblDepartamento" class="control-label">Departamento:</label>
+                                <select id="cboDepartamento" class="form-control">
+                                    <option value="">-- SELECCIONE --</option>
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <label id="lblProvincia" class="col-sm-3 control-label">Provincia:</label>
-                                <div class="col-sm-6">
-                                    <select id="cboProvincia" class="form-control">
-                                        <option value="">-- SELECCIONE --</option>
-                                    </select>
-                                </div>
+                            <div class="col-md-5 col-sm-4 form-group">
+                                <label id="lblProvincia" class="control-label">Provincia:</label>
+                                <select id="cboProvincia" class="form-control">
+                                    <option value="">-- SELECCIONE --</option>
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <label id="lblDistrito" class="col-sm-3 control-label">Distrito:</label>
-                                <div class="col-sm-6">
-                                    <select id="cboDistrito" class="form-control">
-                                        <option value="">-- SELECCIONE --</option>
-                                    </select>
-                                </div>
+                        </div>
+
+                        <div class="row pbot30">
+                            <div class="col-md-4 col-sm-4 form-group">
+                                <label id="lblDistrito" class="control-label">Distrito:</label>
+                                <select id="cboDistrito" class="form-control">
+                                    <option value="">-- SELECCIONE --</option>
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Local de Votación:</label>
-                                <div class="col-sm-6">
-                                    <select id="cboLocal" class="form-control">
-                                        <option value="">-- SELECCIONE --</option>
-                                    </select>
-                                </div>
+                            <div class="col-md-8 col-sm-8 form-group">
+                                <label class="control-label">Locales:</label>
+                                <select id="cboLocal" class="form-control">
+                                    <option value="">-- SELECCIONE --</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-
+                    <!-- Contenedor de Mesas -->
                     <div id="contenedorMesas" class="col-xs-12 ptop20" style="display:none;">
                         <div style="background-color: #c89f3b; color: white; padding: 5px 10px; font-weight: bold;">LISTADO DE MESAS</div>
                         
@@ -87,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- Contenedor de Acta Detalle -->
                     <div id="contenedorActaDetalle" class="col-xs-12 ptop20" style="display:none;">
                         <div class="text-right pbot10">
                             <button id="btnRegresarMesas" type="button" class="btn btn-primary" style="background-color: #337ab7; border-color: #2e6da4;">
@@ -96,7 +88,6 @@
                         </div>
                         <div id="htmlActa"></div> 
                     </div>
-
                 </div>
             </div>
         </div>
@@ -108,8 +99,10 @@
     <script>
         $(document).ready(function () {
             
+            //Funcion para cargar los ambitos de acuerdo a la seleccion del combo
             function cargarAmbitos() {
                 var ambito = $('#cboAmbito').val();
+                //Cambiar las etiquetas de acuerdo al ambito
                 if (ambito === 'Extranjero') {
                     $('#lblDepartamento').text('Continente:');
                     $('#lblProvincia').text('País:');
@@ -119,12 +112,12 @@
                     $('#lblProvincia').text('Provincia:');
                     $('#lblDistrito').text('Distrito:');
                 }
-
+                //Limpiar los combos.
                 $('#cboDepartamento, #cboProvincia, #cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
-                
                 $('#contenedorMesas').hide(); 
                 $('#contenedorActaDetalle').hide();
 
+                //Cargar departamentos segun el ambito seleccionado
                 $.get('@Url.Action("CargarDepartamentos", "Acta")?ambito=' + ambito, function (data) {
                     $.each(data, function (index, item) {
                         $('#cboDepartamento').append($('<option>', { value: item.id, text: item.text }));
@@ -135,11 +128,13 @@
             cargarAmbitos();
             $('#cboAmbito').change(cargarAmbitos);
 
+            //Funcion para cargar el departamento
             $('#cboDepartamento').change(function () {
                 var id = $(this).val();
                 $('#cboProvincia, #cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
                 $('#contenedorMesas').hide(); $('#contenedorActaDetalle').hide();
                 
+                //Si se selecciona una opcion, cargar la siguiente
                 if (id) {
                     $.get('@Url.Action("CargarProvincias", "Acta")?id=' + id, function (data) {
                         $.each(data, function (index, item) {
@@ -149,6 +144,7 @@
                 }
             });
 
+            //Funcion para cargar las provincias dependiendo del departamento seleccionado
             $('#cboProvincia').change(function () {
                 var id = $(this).val();
                 $('#cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
@@ -163,6 +159,7 @@
                 }
             });
 
+            //Funcion para cargar los distritos dependiendo de la provincia seleccionada
             $('#cboDistrito').change(function () {
                 var id = $(this).val();
                 $('#cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
@@ -177,12 +174,13 @@
                 }
             });
 
-
+            //Funcion para cargar las mesas dependiendo del local seleccionado
             $('#cboLocal').change(function () {
                 var id = $(this).val();
                 $('#grillaMesas').empty(); 
                 $('#contenedorActaDetalle').hide();
                 
+                //Si se selecciona una opcion, cargar la siguiente
                 if (id) {
                     $.get('@Url.Action("CargarMesas", "Acta")?id=' + id, function (data) {
                         $.each(data, function (index, item) {
@@ -209,7 +207,7 @@
                 }
             });
 
-
+            //Funcion para cargar el detalle del acta dependiendo de la mesa.
             $('#grillaMesas').on('click', '.btn-mesa', function (e) {
                 e.preventDefault(); 
                 var idMesa = $(this).data('id'); 
