@@ -6,8 +6,6 @@ namespace Onpe.Database
     //Clase para manejar la conexion a la base de datos
     public class ConexionDB
     {
-        
-        private static readonly object Bloqueo = new object();
 
         //Definir la cadena de conexion
         SqlConnection cn = null;

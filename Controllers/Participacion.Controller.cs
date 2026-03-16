@@ -8,6 +8,7 @@ namespace Onpe.Controllers
     {
         private readonly daoParticipacion daoP;
 
+        private readonly string[] continentes = { "AFRICA", "AMERICA", "ASIA", "EUROPA", "OCEANIA" };
         //Constructor para inicializar la conexion a la base de datos
         public ParticipacionController(IConfiguration configuration)
         {
@@ -20,8 +21,8 @@ namespace Onpe.Controllers
             return View(listaCompleta);
         }
 
-        //Get: Participacion/Nacional/{id}
-        public IActionResult Nacional(string id = "Nacional")
+        //Get: Participacion/Ambito/{id ? Nacional : Extranjero}
+        public IActionResult Ambito(string id = "Nacional")
         {
             ViewBag.Titulo = "NACIONAL";
             ViewBag.Columna = id == "Extranjero" ? "CONTINENTE" : "DEPARTAMENTO";
@@ -31,14 +32,14 @@ namespace Onpe.Controllers
             return View("Resumen", lista);
         }
 
-        //Get: Participacion/Nacional/Departamento/{Departamento}
+        //Get: Participacion/Departamentos/{Departamento}
         //Cuenta tanto nacional como extranjero
         public IActionResult Departamentos(string id)
         {
             if (string.IsNullOrEmpty(id)) return RedirectToAction("Nacional");
 
             ViewBag.Titulo = id;
-            ViewBag.Columna = (id == "AFRICA" || id == "AMERICA" || id == "ASIA" || id == "EUROPA" || id == "OCEANIA") ? "PAÍS" : "PROVINCIA";
+            ViewBag.Columna = continentes.Contains(id.ToUpper()) ? "PAÍS" : "PROVINCIA";
             ViewBag.SiguienteNivel = "Provincia";
 
             return View("Resumen", daoP.getPorDepartamento(id));

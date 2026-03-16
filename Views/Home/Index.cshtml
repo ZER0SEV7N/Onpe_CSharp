@@ -3,14 +3,17 @@
     ViewData["FooterClass"] = "footer-index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<!-- Vista Principal. -->
 <section class="container space02 nosub">
     <div class="pull-left pd02 ancho-ie">
+        <!-- Presidenciales -->
         <a href="#">
             <div class="grow pic btn01"><img src="~/content/images/presidenciales.jpg" alt="Presidenciales"></div>
             <div class="tit02"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><p>PRESIDENCIALES</p></div>
         </a>
     </div>
     
+    <!-- Actas por Numero y Ubicacion -->
     <div class="pull-left pd02 oculto2 ancho-ie">
         <a href="@Url.Action("Ubigeo", "Acta")">
             <div class="grow pic btn04"><img src="~/content/images/actas.jpg" alt="Actas"></div>
@@ -18,6 +21,7 @@
         </a>
     </div>
     
+    <!-- Participacion Nacional e Internacional-->
     <div class="pull-left pd01 ancho-ie">
         <a href="@Url.Action("Inicial", "Participacion")">
             <div class="grow pic btn05"><img src="~/content/images/participacion.jpg" alt="Participación Ciudadana"></div>

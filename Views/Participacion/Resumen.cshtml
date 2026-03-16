@@ -3,16 +3,17 @@
     ViewData["Title"] = "Participación Ciudadana - " + ViewBag.Titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    //Guardar los totales
     int totalEH = Model != null ? Model.Sum(x => x.EH) : 0;
     int totalTV = Model != null ? Model.Sum(x => x.TV) : 0;
     int totalTA = Model != null ? Model.Sum(x => x.TA) : 0;
 
+    //Calcular los porcentajes
     double pctTV = totalEH > 0 ? (totalTV * 100.0) / totalEH : 0;
     double pctTA = totalEH > 0 ? (totalTA * 100.0) / totalEH : 0;
 }
-
+<!-- Pagina de Resumen -->
 <div class="container">
-
    <section class="contenedor">
         <div class="row">
             <div class="col-xs-12 col-md-3">
@@ -26,18 +27,32 @@
                 <div class="contenido-interna">
                     <div class="titulos col-xs-12">
                         <div class="col-xs-11">
-                            <h3> <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" style="font-size:19px"></span> SEGUNDA ELECCIÓN PRESIDENCIAL 2016: PARTICIPACIÓN CIUDADANA </h3>
+                            <h3> 
+                                <span class="glyphicon glyphicon-circle-arrow-right" 
+                                 aria-hidden="true" 
+                                 style="font-size:19px">
+                                </span> SEGUNDA ELECCIÓN PRESIDENCIAL 2016: PARTICIPACIÓN CIUDADANA 
+                            </h3>
                         </div>
                         <div class="col-xs-1 oculto-boton-print">
-                            <button onclick="window.print();"><i class="fa fa-print ico-print"></i></button>
+                            <button onclick="window.print();">
+                                <i class="fa fa-print ico-print"></i>
+                            </button>
                         </div>
                     </div>
 
+                    <!-- Tabla cabecera de las actas contabilizadas-->
                     <table>
                         <tbody>
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-primary" onclick="history.go(-1);"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> REGRESAR</button>
+                                    <button type="button" 
+                                      class="btn btn-primary" 
+                                      onclick="history.go(-1);">
+                                        <span class="glyphicon glyphicon-chevron-left" 
+                                          aria-hidden="true">
+                                        </span> REGRESAR
+                                    </button>
                                 </td>
                                 <td width="60%">&nbsp;</td>
                                 <td>
@@ -47,6 +62,7 @@
                         </tbody>
                     </table>
 
+                    <!-- Actas Contabilizadas -->
                     <div class="col-xs-12">
                         <p class="subtitle">ACTAS CONTABILIZADAS</p>
                         <div class="col-lg-7 centered">
@@ -64,6 +80,7 @@
                         <br />
                     </div>
 
+                    <!-- Grafico Pie de porcentajes -->
                     <div class="col-xs-12 line pbot30 ptop20">
                         <div class="col-xs-12 col-md-6">
                             <div id="grafico"
@@ -73,6 +90,7 @@
                             </div>
                         </div>
 
+                        <!-- Tabla de totales -->
                         <div class="col-xs-12 col-md-6">
                             <div class="cont-recto" style="margin-bottom:10px">
                                 Ambito: @ViewBag.Titulo 
@@ -100,40 +118,39 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Mostrar el siguiente nivel del ambito -->
                     @if (ViewBag.SiguienteNivel != "")
                     {
                         <div class="col-xs-12">
-                        
-                        <p class="subtitle">Consulta de participación  </p>
-                        <div id="page-wrap">
-                            <table class="table21">
-                                <tbody id="resultados">
-                                    <tr class="titulo_tabla">
-                                        <td>@ViewBag.Columna</td>
-                                        <td>TOTAL ASISTENTES</td>
-                                        <td>% TOTAL ASISTENTES</td>
-                                        <td>TOTAL AUSENTES</td>
-                                        <td>% TOTAL AUSENTES</td>
-                                        <td>ELECTORES HÁBILES</td>
-                                    </tr>
-
-                                    @if (Model != null)
+                            <p class="subtitle">Consulta de participación  </p>
+                            <div id="page-wrap">
+                                <table class="table21">
+                                    <tbody id="resultados">
+                                        <tr class="titulo_tabla">
+                                            <td>@ViewBag.Columna</td>
+                                            <td>TOTAL ASISTENTES</td>
+                                            <td>% TOTAL ASISTENTES</td>
+                                            <td>TOTAL AUSENTES</td>
+                                            <td>% TOTAL AUSENTES</td>
+                                            <td>ELECTORES HÁBILES</td>
+                                        </tr>
+                                    
+                                    @foreach (var item in Model)
                                     {
-                                        @foreach (var item in Model)
-                                        {
-                                            string siguienteNivel = ViewBag.SiguienteNivel as string;
-                                            string eventoClic = string.IsNullOrEmpty(siguienteNivel) ? "" : $"onclick=location.href='{Url.Action(siguienteNivel, "Participacion", new { id = item.DPD })}' onmouseover=\"this.style.cursor='pointer'; this.style.color='grey'\" onmouseout=\"this.style.color='black'\" style=\"cursor: pointer; color: black;\"";
+                                        string siguienteNivel = ViewBag.SiguienteNivel as string;
+                                            string eventoClic = string.IsNullOrEmpty(siguienteNivel) ? "" : $"onclick=location.href='{Url.Action(siguienteNivel, "Participacion", new { id = item.DPD })}' class='fila-clickable'";
                                             
-                                            <tr @Html.Raw(eventoClic)>
-                                                <td>@item.DPD</td>
-                                                <td>@item.TV.ToString("N0")</td>
-                                                <td>@item.PTV</td>
-                                                <td>@item.TA.ToString("N0")</td>
-                                                <td>@item.PTA</td>
-                                                <td>@item.EH.ToString("N0")</td>
-                                            </tr>
-                                        }
+                                        <tr @Html.Raw(eventoClic)>
+                                            <td>@item.DPD</td>
+                                            <td>@item.TV.ToString("N0")</td>
+                                            <td>@item.PTV</td>
+                                            <td>@item.TA.ToString("N0")</td>
+                                            <td>@item.PTA</td>
+                                            <td>@item.EH.ToString("N0")</td>
+                                        </tr>
                                     }
+                                    
                                     
                                     <tr style="font-weight:bold; background-color:#e0e0e0;">
                                         <td>TOTALES</td>

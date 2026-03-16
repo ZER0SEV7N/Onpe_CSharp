@@ -974,10 +974,13 @@ p {
                font-weight: bold; text-transform: uppercase; 
         }
         .table21 td, th { 
-               padding: 6px; 
-               border: 1px solid #ccc; 
+               padding: 12px 15px;
+               border-bottom: 1px solid #eee;
                text-align: center; 
         }
+		.table21 tbody tr:nth-child(odd):not(.titulo_tabla) {
+			background-color: #fcfcfc;
+		}
 
 /*tabla Distrito*/
         .table22 { 
@@ -1054,4 +1057,36 @@ p {
 	float: left;
 	padding-left: 15px;
 	padding-right: 15px;
+}
+
+.fila-clickable {
+	cursor: pointer;
+	color: #333;
+	transition: all 0.2s ease-in-out;
+}
+
+.fila-clickable:hover {
+	background-color: #f5f5f5;
+	color: #b7282e !important;
+	font-weight: 500;
+}
+
+.contenido-interna {
+	background-color: #ffffff;
+	padding: 25px;
+	border-radius: 4px;
+	box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05); 
+	border: 1px solid #eaeaea; 
+}
+
+.form-control {
+	height: 40px; 
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.03);
+}
+
+.form-control:focus {
+	border-color: #c89f3b; 
+	box-shadow: 0 0 8px rgba(200, 159, 59, 0.3);
 }

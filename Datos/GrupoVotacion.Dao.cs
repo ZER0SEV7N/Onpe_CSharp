@@ -30,7 +30,10 @@ namespace Onpe.Datos
         //Metodo para obtener todos los departamentos
         public List<object> getDepartamentos(int inicio, int fin)
         {
-            db.Setencia($"exec usp_getDepartamentos {inicio}, {fin}");
+            string query = $"select * from Departamento where idDepartamento BETWEEN {inicio} and {fin}";
+
+            //db.Setencia($"exec usp_getDepartamentos {inicio}, {fin}");
+            db.Setencia(query);
             var lista = new List<object>();
             var registros = db.getRegistros();
             if (registros != null)

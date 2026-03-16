@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta lang="es" />
     <title>ONPE - Oficina Nacional de Procesos Electorales</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
@@ -11,6 +12,7 @@
 </head>
 <body>
     <header>
+        <!-- Layout de la cabecera -->
         <div class="container">
             <div class="pull-left logo-onpe">
                 <a href="@Url.Action("Index", "Home")"><img src="~/content/images/onpe-trans.png" alt="ONPE Logo" /></a>
@@ -23,6 +25,8 @@
             </div>
         </div>
     </header>
+
+    <!-- Acceder al resto de opciones -->
     @{
         string controlador = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
         string bgActas = (controlador == "Acta") ? "#c89f3b" : "#e0e0e0";
@@ -31,11 +35,13 @@
         string colorPart = (controlador == "Participacion") ? "#ffffff" : "#555555";
         string bannerImg = (controlador == "Participacion") ? "f-participacion.jpg" : "f-actas.jpg";
     }
-    @if (controlador != "Home" && controlador != "Inicio")
+    @if (controlador != "Home")
     {
+        <!-- Imagen de fondo -->
         <div class="container mg30top">
             <img src="~/content/images/@bannerImg" width="1170" height="248" class="img-responsive" alt="Banner ONPE">
             
+                <!-- Seccion Presidencal -->
                 <div class="row" style="margin: 0; margin-bottom: 20px;">
                     <a href="#" style="text-decoration: none; display: block;">
                         <div class="col-xs-4" style="background-color: #e0e0e0; color: #555555; text-align: center; padding: 15px 0; font-size: 15px; border-top: 5px solid #142a4b;">
@@ -43,21 +49,27 @@
                         </div>
                     </a>
                 
+                    <!-- Seccion Actas -->
                     <a href="@Url.Action("Ubigeo", "Acta")" style="text-decoration: none; display: block;">
                         <div class="col-xs-4" style="background-color: @bgActas; color: @colorActas; text-align: center; padding: 15px 0; font-size: 15px; border-top: 5px solid #c89f3b; transition: 0.3s;">
                             ACTAS
                         </div>
                     </a>
                 
+                    <!-- Seccion Participacion ciudana -->
                     <a href="@Url.Action("Inicial", "Participacion")" style="text-decoration: none; display: block;">
                         <div class="col-xs-4" style="background-color: @bgPart; color: @colorPart; text-align: center; padding: 15px 0; font-size: 15px; border-top: 5px solid #b7282e; transition: 0.3s;">
                             PARTICIPACIÓN CIUDADANA
                         </div>
                     </a>
+
                 </div>
             </div>
         }
+
     @RenderBody()
+    
+    <!-- Layout de pie de pagina -->
     <footer class="@(ViewData["FooterClass"] ?? "footer-inside")">
         <div class="container">
             <div class="row">
@@ -70,6 +82,8 @@
             </div>
         </div>
     </footer>
+
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

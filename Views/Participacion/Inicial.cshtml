@@ -3,14 +3,17 @@
     ViewData["Title"] = "Participación Ciudadana";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    //Guardar los totales 
     int totalEH = Model != null ? Model.Sum(x => x.EH) : 0;
     int totalTV = Model != null ? Model.Sum(x => x.TV) : 0;
     int totalTA = Model != null ? Model.Sum(x => x.TA) : 0;
 
+    //Calcular los porcentajes
     double pctTV = totalEH > 0 ? (totalTV * 100.0) / totalEH : 0;
     double pctTA = totalEH > 0 ? (totalTA * 100.0) / totalEH : 0;
 }
 
+<!-- Pagina Inicial para Participación Ciudadana -->
 <div class="container">
     <section class="contenedor">
         <div class="row">
@@ -53,7 +56,7 @@
                         </div>
                         <br/>
                     </div>
-
+                    <!-- Grafico Pie de porcentajes -->
                     <div class="col-xs-12 col-md-6">
                         <div id="grafico"
                              style="width: 100%; height: 250px;"
@@ -62,6 +65,7 @@
                         </div>
                    </div>
 
+                    <!-- Tabla de totales -->
                     <div class="col-xs-12 col-md-6">
                         <p class="subtitle">ELECTORES HÁBILES @totalEH.ToString("N0")</p>
                         <div id="page-wrap">
@@ -87,14 +91,15 @@
                     </div>
                 </div>
 
+                <!-- Seccion para escoger el ambito -->
                 <div class="col-xs-12 pbot30 ptop20">
                     <div class="col-xs-12 col-md-6 text-center">
-                        <a href="@Url.Action("Nacional", "Participacion", new { id = "Extranjero" })">
+                        <a href="@Url.Action("Ambito", "Participacion", new { id = "Extranjero" })">
                             <img src="~/content/images/icono_extranjero.jpg" class="img-responsive">
                         </a>
                     </div>
                     <div class="col-xs-12 col-md-6 text-center">
-                        <a href="@Url.Action("Nacional", "Participacion", new { id = "Nacional" })">
+                            <a href="@Url.Action("Ambito", "Participacion", new { id = "Nacional" })">
                             <img src="~/content/images/icono_nacional.jpg" class="img-responsive">
                         </a>
                     </div>
