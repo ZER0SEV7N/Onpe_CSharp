@@ -10,7 +10,7 @@ namespace Onpe.Datos
 
         public daoGrupoVotacion(IConfiguration configuration)
         {
-            db = new ConexionDB(configuration, "CadenaSQLProfesor");
+            db = new ConexionDB(configuration, "CadenaSQLAzure");
         }
 
         //Metodo para obtener un acta de votacion por su id

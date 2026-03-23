@@ -7,11 +7,11 @@ namespace Onpe.Controllers
     //Controlador para manejar las vistas relacionada con las actas de votacion.
     public class ActaController : Controller
     {
-        private readonly daoGrupoVotacion daoGV;
+        private readonly daoGrupoVotacion _daoGrupoVotacion;
 
-        public ActaController(IConfiguration configuration)
+        public ActaController(daoGrupoVotacion daoGrupoVotacion)
         {
-            daoGV = new daoGrupoVotacion(configuration);
+            _daoGrupoVotacion = daoGrupoVotacion;
         }
 
         //GET: Acta/Numero
@@ -20,7 +20,7 @@ namespace Onpe.Controllers
         {
             if (string.IsNullOrEmpty(id)) return View();
 
-            var acta = daoGV.getActa(id);
+            var acta = _daoGrupoVotacion.getActa(id);
             if (acta == null || !acta.Valido)
             {
                 ViewBag.Error = "El número de acta ingresado no existe, por favor vuelva a intentarlo";
@@ -41,19 +41,19 @@ namespace Onpe.Controllers
         [HttpGet] public JsonResult CargarDepartamentos(string ambito)
         {
             if (ambito == "Extranjero")
-                return Json(daoGV.getDepartamentos(26, 30));
+                return Json(_daoGrupoVotacion.getDepartamentos(26, 30));
             else
-                return Json(daoGV.getDepartamentos(1, 25));
+                return Json(_daoGrupoVotacion.getDepartamentos(1, 25));
         }
-        [HttpGet] public JsonResult CargarProvincias(int id) => Json(daoGV.getProvincias(id));
-        [HttpGet] public JsonResult CargarDistritos(int id) => Json(daoGV.getDistritos(id));
-        [HttpGet] public JsonResult CargarLocales(int id) => Json(daoGV.getLocales(id));
-        [HttpGet] public JsonResult CargarMesas(int id) => Json(daoGV.getGrupoVotacion(id));
+        [HttpGet] public JsonResult CargarProvincias(int id) => Json(_daoGrupoVotacion.getProvincias(id));
+        [HttpGet] public JsonResult CargarDistritos(int id) => Json(_daoGrupoVotacion.getDistritos(id));
+        [HttpGet] public JsonResult CargarLocales(int id) => Json(_daoGrupoVotacion.getLocales(id));
+        [HttpGet] public JsonResult CargarMesas(int id) => Json(_daoGrupoVotacion.getGrupoVotacion(id));
 
         //Cargar el Detalle para las actas.
         [HttpGet] public IActionResult ObtenerDetalle(string id)
         {
-            var acta = daoGV.getActa(id);
+            var acta = _daoGrupoVotacion.getActa(id);
             if (acta == null || !acta.Valido) return NotFound();
 
             return PartialView("_ActaDetalle", acta);

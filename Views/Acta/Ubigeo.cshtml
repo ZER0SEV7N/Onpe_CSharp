@@ -95,137 +95,16 @@
 </div>
 
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-            
-            //Funcion para cargar los ambitos de acuerdo a la seleccion del combo
-            function cargarAmbitos() {
-                var ambito = $('#cboAmbito').val();
-                //Cambiar las etiquetas de acuerdo al ambito
-                if (ambito === 'Extranjero') {
-                    $('#lblDepartamento').text('Continente:');
-                    $('#lblProvincia').text('País:');
-                    $('#lblDistrito').text('Ciudad:');
-                } else {
-                    $('#lblDepartamento').text('Departamento:');
-                    $('#lblProvincia').text('Provincia:');
-                    $('#lblDistrito').text('Distrito:');
-                }
-                //Limpiar los combos.
-                $('#cboDepartamento, #cboProvincia, #cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
-                $('#contenedorMesas').hide(); 
-                $('#contenedorActaDetalle').hide();
-
-                //Cargar departamentos segun el ambito seleccionado
-                $.get('@Url.Action("CargarDepartamentos", "Acta")?ambito=' + ambito, function (data) {
-                    $.each(data, function (index, item) {
-                        $('#cboDepartamento').append($('<option>', { value: item.id, text: item.text }));
-                    });
-                });
-            }
-
-            cargarAmbitos();
-            $('#cboAmbito').change(cargarAmbitos);
-
-            //Funcion para cargar el departamento
-            $('#cboDepartamento').change(function () {
-                var id = $(this).val();
-                $('#cboProvincia, #cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
-                $('#contenedorMesas').hide(); $('#contenedorActaDetalle').hide();
-                
-                //Si se selecciona una opcion, cargar la siguiente
-                if (id) {
-                    $.get('@Url.Action("CargarProvincias", "Acta")?id=' + id, function (data) {
-                        $.each(data, function (index, item) {
-                            $('#cboProvincia').append($('<option>', { value: item.id, text: item.text }));
-                        });
-                    });
-                }
-            });
-
-            //Funcion para cargar las provincias dependiendo del departamento seleccionado
-            $('#cboProvincia').change(function () {
-                var id = $(this).val();
-                $('#cboDistrito, #cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
-                $('#contenedorMesas').hide(); $('#contenedorActaDetalle').hide();
-                
-                if (id) {
-                    $.get('@Url.Action("CargarDistritos", "Acta")?id=' + id, function (data) {
-                        $.each(data, function (index, item) {
-                            $('#cboDistrito').append($('<option>', { value: item.id, text: item.text }));
-                        });
-                    });
-                }
-            });
-
-            //Funcion para cargar los distritos dependiendo de la provincia seleccionada
-            $('#cboDistrito').change(function () {
-                var id = $(this).val();
-                $('#cboLocal').empty().append('<option value="">-- SELECCIONE --</option>');
-                $('#contenedorMesas').hide(); $('#contenedorActaDetalle').hide();
-                
-                if (id) {
-                    $.get('@Url.Action("CargarLocales", "Acta")?id=' + id, function (data) {
-                        $.each(data, function (index, item) {
-                            $('#cboLocal').append($('<option>', { value: item.id, text: item.text }));
-                        });
-                    });
-                }
-            });
-
-            //Funcion para cargar las mesas dependiendo del local seleccionado
-            $('#cboLocal').change(function () {
-                var id = $(this).val();
-                $('#grillaMesas').empty(); 
-                $('#contenedorActaDetalle').hide();
-                
-                //Si se selecciona una opcion, cargar la siguiente
-                if (id) {
-                    $.get('@Url.Action("CargarMesas", "Acta")?id=' + id, function (data) {
-                        $.each(data, function (index, item) {
-                            var link = $('<a>', {
-                                text: item.id,
-                                href: 'javascript:void(0)', 
-                                'class': 'btn-mesa', 
-                                'data-id': item.id,  
-                                style: 'display:inline-block; width:19%; text-align:center; padding:10px 0; color:#337ab7; font-weight:bold; text-decoration:none;'
-                            });
-                            
-                            link.hover(
-                                function() { $(this).css('background-color', '#c0c0c0'); },
-                                function() { $(this).css('background-color', 'transparent'); }
-                            );
-
-                            $('#grillaMesas').append(link);
-                        });
-                        
-                        $('#contenedorMesas').fadeIn();
-                    });
-                } else {
-                    $('#contenedorMesas').hide();
-                }
-            });
-
-            //Funcion para cargar el detalle del acta dependiendo de la mesa.
-            $('#grillaMesas').on('click', '.btn-mesa', function (e) {
-                e.preventDefault(); 
-                var idMesa = $(this).data('id'); 
-                
-                $.get('@Url.Action("ObtenerDetalle", "Acta")?id=' + idMesa, function (htmlObtenido) {
-                    $('#contenedorMesas').hide();           
-                    $('#htmlActa').html(htmlObtenido);      
-                    $('#contenedorActaDetalle').fadeIn();   
-                }).fail(function() {
-                    alert("Error cargando el acta. Verifique que el método ObtenerDetalle exista en ActaController.");
-                });
-            });
-
-            //Funcion para regresar a la grilla de mesas desde el detalle del acta
-            $('#btnRegresarMesas').click(function() {
-                $('#contenedorActaDetalle').hide(); 
-                $('#contenedorMesas').fadeIn();     
-            });
-        });
+        const UrlsActa = {
+            departamentos: '@Url.Action("CargarDepartamentos", "Acta")',
+            provincias: '@Url.Action("CargarProvincias", "Acta")',
+            distritos: '@Url.Action("CargarDistritos", "Acta")',
+            locales: '@Url.Action("CargarLocales", "Acta")',
+            mesas: '@Url.Action("CargarMesas", "Acta")',
+            detalle: '@Url.Action("ObtenerDetalle", "Acta")'
+        };
     </script>
+    
+    <script src="~/js/comboBox.js"></script>
 }

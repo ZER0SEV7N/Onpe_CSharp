@@ -6,18 +6,18 @@ namespace Onpe.Controllers
     //Controlador para manejar las vistas relacionada con la participacion electoral.
     public class ParticipacionController : Controller
     {
-        private readonly daoParticipacion daoP;
+        private readonly daoParticipacion _daoParticipacion;
 
         private readonly string[] continentes = { "AFRICA", "AMERICA", "ASIA", "EUROPA", "OCEANIA" };
         //Constructor para inicializar la conexion a la base de datos
-        public ParticipacionController(IConfiguration configuration)
+        public ParticipacionController(daoParticipacion daoParticipacion)
         {
-            daoP = new daoParticipacion(configuration);
+            _daoParticipacion = daoParticipacion;
         }
 
         public IActionResult Inicial()
         {
-            var listaCompleta = daoP.getNacional(1, 30);
+            var listaCompleta = _daoParticipacion.getNacional(1, 30);
             return View(listaCompleta);
         }
 
@@ -28,7 +28,7 @@ namespace Onpe.Controllers
             ViewBag.Columna = id == "Extranjero" ? "CONTINENTE" : "DEPARTAMENTO";
             ViewBag.SiguienteNivel = "Departamentos";
 
-            var lista = id == "Extranjero" ? daoP.getNacional(26, 30) : daoP.getNacional(1, 25);
+            var lista = id == "Extranjero" ? _daoParticipacion.getNacional(26, 30) : _daoParticipacion.getNacional(1, 25);
             return View("Resumen", lista);
         }
 
@@ -42,7 +42,7 @@ namespace Onpe.Controllers
             ViewBag.Columna = continentes.Contains(id.ToUpper()) ? "PAÍS" : "PROVINCIA";
             ViewBag.SiguienteNivel = "Provincia";
 
-            return View("Resumen", daoP.getPorDepartamento(id));
+            return View("Resumen", _daoParticipacion.getPorDepartamento(id));
         }
 
         //Get: Participacion/Provincia/{Provincia}
@@ -52,7 +52,7 @@ namespace Onpe.Controllers
             ViewBag.Columna = "DISTRITO / CIUDAD";
             ViewBag.SiguienteNivel = "Distrito"; 
 
-            return View("Resumen", daoP.getPorProvincia(id));
+            return View("Resumen", _daoParticipacion.getPorProvincia(id));
         }
 
         //Get: Participacion/Distrito/{Distrito}
@@ -64,7 +64,7 @@ namespace Onpe.Controllers
             ViewBag.Columna = "LOCAL DE VOTACIÓN";
             ViewBag.SiguienteNivel = ""; 
 
-            return View("Resumen", daoP.getPorDistrito(id));
+            return View("Resumen", _daoParticipacion.getPorDistrito(id));
         }
     }
 }

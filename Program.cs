@@ -1,7 +1,11 @@
+using Onpe.Datos;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<daoParticipacion>();
+builder.Services.AddScoped<daoGrupoVotacion>();
+
 
 var app = builder.Build();
 

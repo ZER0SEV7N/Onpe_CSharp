@@ -10,7 +10,7 @@ namespace Onpe.Datos
         //Constructor para inicializar la conexion a la base de datos
         public daoParticipacion(IConfiguration configuration)
         {
-            db =  new ConexionDB(configuration, "CadenaSQLProfesor");
+            db =  new ConexionDB(configuration, "CadenaSQLAzure");
         }
 
         //Metodo para obtener la participacion a nivel Nacional (Departamento = 1 / 25)
